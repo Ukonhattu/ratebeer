@@ -1,3 +1,3 @@
 # README
 
-Heroku ei toimi vielä :d
+[Heroku](https://daxda-ratebeer.herokuapp.com "Ratebeer")
