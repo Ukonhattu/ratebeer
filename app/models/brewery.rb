@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 class Brewery < ApplicationRecord
+  # Brewery model
+
   include RatingAverage
   has_many :beers, dependent: :destroy
   has_many :ratings, through: :beers
@@ -17,5 +21,4 @@ class Brewery < ApplicationRecord
   def to_s
     "#{name} : #{year}"
   end
-
 end
