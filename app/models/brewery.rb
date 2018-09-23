@@ -8,7 +8,13 @@ class Brewery < ApplicationRecord
   has_many :ratings, through: :beers
 
   validates :name, presence: true
-  validates :year, inclusion: {in: 1040..2018}
+  validate :validate_year
+
+  def validate_year
+    if year < 1040 || year > Time.now.year
+      errors.add(:year, "Not a valid year")
+    end
+  end
 
   def print_report
     puts name

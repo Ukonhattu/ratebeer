@@ -16,6 +16,15 @@
       <%= link_to 'delete', rating, method: :delete, data: { confirm: 'Are you sure?' } %>
       <% end %>
   <% end %>
+  <br>Memberships: <br>
+  <% if @user.memberships.empty?%>
+    User has no memberships
+  <%else%>
+    <% @user.memberships.each do |membership|%>
+      <%= link_to membership.to_s, beer_club_path(membership.beer_club)%> <br/>
+    <%end%>
+  <%end%>
+  <br/><br/>
 <% if @user == current_user %>
   <%= link_to 'Edit', edit_user_path(@user) %> |
   <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
