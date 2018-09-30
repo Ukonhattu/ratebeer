@@ -15,4 +15,21 @@ class User < ApplicationRecord
         return nil if ratings.empty?
         ratings.order(score: :desc).limit(1).first.beer
     end
+
+    def favorite_style
+        return nil if ratings.empty?
+        style_ratings_all = ratings.group_by{|r| r.beer.style}
+        style_ratings = {}
+        style_ratings_all.each{|r, v| style_ratings[r] = (v.sum(&:score) / v.size.to_f)}
+        return style_ratings.max{|r,v| v}[0]
+    end
+
+    def favorite_brewery
+        return nil if ratings.empty?
+
+        br_ratings_all = ratings.group_by{|r| r.beer.brewery}
+        br_ratings = {}
+        br_ratings_all.each{|r, v| br_ratings[r] = (v.sum(&:score) / v.size.to_f)}
+        return br_ratings.max{|r,v| v}[0]
+    end
 end

@@ -26,10 +26,6 @@ RSpec.describe User, type: :model do
       expect(user).not_to be_valid
     end
 
-  #  it "so it has at least one number" do
-    #  user = User.create username:"Pekka", password:"abcD", password_confirmation: "abcD"
-    #  expect(user).not_to be_valid
-  #  end
 
     it "and with terms met is valid" do
       user = User.create username:"Pekka", password:"abcD1", password_confirmation: "abcD1"
@@ -80,6 +76,60 @@ RSpec.describe User, type: :model do
     
       expect(user.favorite_beer).to eq(best)
     end 
+  end
+
+  describe "favorite style" do
+    let(:user){ FactoryBot.create(:user)}
+
+    it "has a method for determining one" do
+      expect(user).to respond_to(:favorite_style)
+    end
+
+    it "without ratings does not have one" do
+      expect(user.favorite_style).to eq(nil)
+    end
+
+    it "is the only rated if only one rating" do
+      beer = FactoryBot.create(:beer)
+      rating = FactoryBot.create(:rating, score:20, beer: beer, user: user)
+
+      expect(user.favorite_style).to eq(beer.style)
+    end
+
+    it "is the one with highest rating if several rated" do
+      create_beers_with_many_ratings({user: user}, 10, 20)
+      beer = create_beer_with_rating({ user: user, name: "TEST" }, 45 )
+
+      expect(user.favorite_style).to eq(beer.style)
+      
+    end
+  end
+  describe "favorite brewery" do
+    let(:user){ FactoryBot.create(:user)}
+
+    it "has a method for determining one" do
+      expect(user).to respond_to(:favorite_brewery)
+    end
+
+    it "without ratings does not have one" do
+      expect(user.favorite_brewery).to eq(nil)
+    end
+
+    it "is the only rated if only one rating" do
+      beer = FactoryBot.create(:beer)
+      rating = FactoryBot.create(:rating, score:20, beer: beer, user: user)
+
+      expect(user.favorite_brewery).to eq(beer.brewery)
+    end
+
+    it "is the one with highest rating if several rated" do
+      create_beers_with_many_ratings({user: user}, 10, 20)
+      brewery = Brewery.create name: "Test", year: 2015
+      beer = create_beer_with_rating({ user: user, brewery: brewery }, 45 )
+
+      expect(user.favorite_brewery).to eq(beer.brewery)
+      
+    end
   end
 end
 

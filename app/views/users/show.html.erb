@@ -11,10 +11,11 @@
 <% end %>
 <br>
   <% @user.ratings.each do |rating| %>
-    <%= link_to rating.to_s, rating %> <br/>
+    <%= link_to rating.to_s, rating %>
     <% if @user == current_user %>
       <%= link_to 'delete', rating, method: :delete, data: { confirm: 'Are you sure?' } %>
       <% end %>
+      <br/>
   <% end %>
   <br>Memberships: <br>
   <% if @user.memberships.empty?%>

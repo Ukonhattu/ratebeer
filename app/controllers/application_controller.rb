@@ -12,14 +12,8 @@ class ApplicationController < ActionController::Base
     User.find(session[:user_id])
   end
 
-  private
+  def ensure_that_signed_in
+    redirect_to signin_path, notice: 'you should be signed in' if current_user.nil?
+  end
 
- # def authenticate
-  #  admin_accounts = { 'pekka' => 'beer', 'arto' => 'foobar', 'matti' => 'ittam', 'vilma' => 'kangas' }
-   # authenticate_or_request_with_http_basic do |username, password|
-    #  admin_accounts[username] == password
-    #end
-  #end
-
-  
 end
