@@ -14,7 +14,7 @@
       <img src="./assets/0.10.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2018-09-30T23:39:45+03:00">2018-09-30T23:39:45+03:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2018-10-01T14:14:39+03:00">2018-10-01T14:14:39+03:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -303,7 +303,7 @@
       <tr>
         <td class="strong"><a href="#2d23a167cf34ebd3dcd283b90ff5896d9206cf6f" class="src_link" title="app/models/user.rb">app/models/user.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>36</td>
+        <td>35</td>
         <td>23</td>
         <td>23</td>
         <td>0</td>
@@ -595,7 +595,7 @@
       <tr>
         <td class="strong"><a href="#2d23a167cf34ebd3dcd283b90ff5896d9206cf6f" class="src_link" title="app/models/user.rb">app/models/user.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>36</td>
+        <td>35</td>
         <td>23</td>
         <td>23</td>
         <td>0</td>
@@ -5309,28 +5309,22 @@
         <li class="covered" data-hits="6" data-linenumber="32">
           <span class="hits">6</span>
           
-          <code class="ruby">        br_ratings_all.each{|r, v| br_ratings[r] = (v.sum(&amp;:score) / v.size.to_f)}</code>
+          <code class="ruby">        br_ratings_all.each{|r, v| br_ratings[r.name] = (v.sum(&amp;:score) / v.size.to_f)}</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="33">
-          
-          
-          <code class="ruby">        #byebug</code>
-        </li>
-      
-        <li class="covered" data-hits="3" data-linenumber="34">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="2" data-linenumber="33">
+          <span class="hits">2</span>
           
           <code class="ruby">        return br_ratings.max{|r,v| v}[0]</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="35">
+        <li class="never" data-hits="" data-linenumber="34">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="36">
+        <li class="never" data-hits="" data-linenumber="35">
           
           
           <code class="ruby">end</code>

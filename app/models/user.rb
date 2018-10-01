@@ -29,7 +29,7 @@ class User < ApplicationRecord
 
         br_ratings_all = ratings.group_by{|r| r.beer.brewery}
         br_ratings = {}
-        br_ratings_all.each{|r, v| br_ratings[r] = (v.sum(&:score) / v.size.to_f)}
+        br_ratings_all.each{|r, v| br_ratings[r.name] = (v.sum(&:score) / v.size.to_f)}
         return br_ratings.max{|r,v| v}[0]
     end
 end
