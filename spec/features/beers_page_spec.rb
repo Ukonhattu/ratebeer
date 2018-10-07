@@ -6,6 +6,7 @@ describe "Beer" do
         User.create username: "Pekka", password:"Foobar1", password_confirmation:"Foobar1"
         sign_in(username:"Pekka", password:"Foobar1")
         Brewery.create name: "TestBr", year: 2015
+        Style.create name: "IPA", description: "Test"
     end
 
     it "Can be made with a proper name" do

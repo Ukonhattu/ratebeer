@@ -20,7 +20,7 @@ class User < ApplicationRecord
         return nil if ratings.empty?
         style_ratings_all = ratings.group_by{|r| r.beer.style}
         style_ratings = {}
-        style_ratings_all.each{|r, v| style_ratings[r] = (v.sum(&:score) / v.size.to_f)}
+        style_ratings_all.each{|r, v| style_ratings[r.name] = (v.sum(&:score) / v.size.to_f)}
         return style_ratings.max{|r,v| v}[0]
     end
 
@@ -31,5 +31,12 @@ class User < ApplicationRecord
         br_ratings = {}
         br_ratings_all.each{|r, v| br_ratings[r.name] = (v.sum(&:score) / v.size.to_f)}
         return br_ratings.max{|r,v| v}[0]
+    end
+
+    def isInClub(club)
+        memberships.each do |membership|
+            return true if membership.beer_club == club
+        end
+        return false
     end
 end

@@ -9,10 +9,15 @@ FactoryBot.define do
       name { "anonymous" }
       year { 1900 } 
     end
+
+    factory :style do
+      name {"IPA"}
+      description {"Nice style"}
+    end
   
     factory :beer do
       name { "anonymous" }
-      style { "Lager" } 
+      style #olueeseen liittyvä tyyli luodaan style-tehtaalla
       brewery # olueeseen liittyvä panimo luodaan brewery-tehtaalla
     end
   

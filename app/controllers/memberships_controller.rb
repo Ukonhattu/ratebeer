@@ -29,10 +29,10 @@ class MembershipsController < ApplicationController
   def create
     @membership = Membership.new params.require(:membership).permit(:beer_club_id)
     @membership.user = current_user
-    @beer_clubs = BeerClub.all  
+    @beer_clubs = BeerClub.all
     respond_to do |format|
       if not_duplicate_membership(@membership.beer_club) && @membership.save
-        format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
+        format.html { redirect_to @membership, notice: '%{user} welcome to the club' % {:user => current_user.username} }
         format.json { render :show, status: :created, location: @membership }
       else
         format.html { render :new }
@@ -59,9 +59,10 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
+    name = @membership.beer_club.name
     @membership.destroy
     respond_to do |format|
-      format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
+      format.html { redirect_to user_url, notice: 'Membership in %{membership} ended' % {:membership => name } }
       format.json { head :no_content }
     end
   end
@@ -78,7 +79,7 @@ class MembershipsController < ApplicationController
     end
 
     def not_duplicate_membership(beer_club)
-      if current_user.memberships.find(beer_club.id)
+      if current_user.memberships.find_by(id: beer_club.id)
         return false
       end
       return true

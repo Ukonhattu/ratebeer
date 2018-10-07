@@ -6,8 +6,11 @@ Rails.application.routes.draw do
   resources :users
   resources :beers
   resources :breweries
+  resources :styles, only: [:index, :show]
 
   resource :session, only: [:new, :create, :destroy]
+
+  
 
   root 'breweries#index'
 
@@ -16,6 +19,14 @@ Rails.application.routes.draw do
 
   get 'signin', to: 'sessions#new'
   delete 'signout', to: 'sessions#destroy'
+
+  resources :places, only: [:index, :show]
+  # mikä generoi samat polut kuin seuraavat kaksi
+  # get 'places', to:'places#index'
+  # get 'places/:id', to:'places#show'
+  # Pidän tuon kommentin muistissa jotta muistan
+  
+  post 'places', to:'places#search'
 
   resources :ratings, only: %i[index new create destroy]
 
