@@ -1,4 +1,5 @@
 class StylesController < ApplicationController
+  before_action :ensure_that_admin, only: [:destroy]
 
   def index
     @styles = Style.all
@@ -6,6 +7,9 @@ class StylesController < ApplicationController
 
   def show
     @style = Style.find(params[:id])
+  end
+
+  def destroy
   end
 end
   

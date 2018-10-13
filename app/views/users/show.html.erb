@@ -1,30 +1,40 @@
-<p id="notice"><%= notice %></p>
-
+<h2>
+  <% if @user.closed  %>
+    <span class="badge badge-danger">closed</span>
+  <% end %>
+</h2>
 <p>
   <strong>Username:</strong>
   <%= @user.username %>
 </p>
+<%= link_to "change activity", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-primary" if current_user.admin %>
+<br/>
 <% if @user.ratings.empty? %>
  <%= @user.username %> has made no ratings
 <% else %>
- <%= @user.username %> has <%=pluralize @user.ratings.count, 'rating'%>, average <%=@user.average_rating%>
+ <%= @user.username %> has <%=pluralize @user.ratings.count, 'rating'%>, average <%=round(@user.average_rating)%>
 <% end %>
 <br>
+<ul class="list-group">
   <% @user.ratings.each do |rating| %>
-    <%= link_to rating.to_s, rating %>
+   <li class="list-group-item"> <%= link_to rating.to_s, rating %>
     <% if @user == current_user %>
       <%= link_to 'delete', rating, method: :delete, data: { confirm: 'Are you sure?' } %>
       <% end %>
+      </li>
       <br/>
   <% end %>
+  </ul>
   <br>Memberships: <br>
+  <ul class="list-group">
   <% if @user.memberships.empty?%>
     User has no memberships
   <%else%>
     <% @user.memberships.each do |membership|%>
-      <%= link_to membership.to_s, beer_club_path(membership.beer_club)%> <br/>
+      <li class="list-group-item"><%= link_to membership.to_s, beer_club_path(membership.beer_club)%></li>
     <%end%>
   <%end%>
+  </ul>
   <br/><br/>
 <% if @user == current_user %>
   <%= link_to 'Edit', edit_user_path(@user) %> |
