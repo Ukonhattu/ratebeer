@@ -32,7 +32,7 @@ class MembershipsController < ApplicationController
     @beer_clubs = BeerClub.all
     respond_to do |format|
       if not_duplicate_membership(@membership.beer_club) && @membership.save
-        format.html { redirect_to @membership, notice: '%{user} welcome to the club' % {:user => current_user.username} }
+        format.html { redirect_to @membership, notice: '%{user} welcome to the club' % { user: current_user.username } }
         format.json { render :show, status: :created, location: @membership }
       else
         format.html { render :new }
@@ -40,7 +40,6 @@ class MembershipsController < ApplicationController
       end
     end
   end
-
 
   # PATCH/PUT /memberships/1
   # PATCH/PUT /memberships/1.json
@@ -62,26 +61,28 @@ class MembershipsController < ApplicationController
     name = @membership.beer_club.name
     @membership.destroy
     respond_to do |format|
-      format.html { redirect_to user_url, notice: 'Membership in %{membership} ended' % {:membership => name } }
+      format.html { redirect_to user_url, notice: 'Membership in %{membership} ended' % { membership: name } }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_membership
-      @membership = Membership.find(params[:id])
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_membership
+    @membership = Membership.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def membership_params
+    params.require(:membership).permit(:beer_club_id, :user_id)
+  end
+
+  def not_duplicate_membership(beer_club)
+    if current_user.memberships.find_by(id: beer_club.id)
+      return false
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def membership_params
-      params.require(:membership).permit(:beer_club_id, :user_id)
-    end
-
-    def not_duplicate_membership(beer_club)
-      if current_user.memberships.find_by(id: beer_club.id)
-        return false
-      end
-      return true
-    end
+    true
+  end
 end

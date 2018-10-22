@@ -54,17 +54,17 @@ class UsersController < ApplicationController
 
   def toggle_activity
     user = User.find(params[:id])
-    user.update_attribute :closed, (not user.closed)
-  
+    user.update_attribute :closed, !user.closed
+
     new_status = user.closed? ? "closed" : "active"
-  
-    redirect_to user, notice:"user activity status changed to #{new_status}"
+
+    redirect_to user, notice: "user activity status changed to #{new_status}"
   end
 
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.ratings.each {|r| r.delete}
+    @user.ratings.each(&:delete)
     @user.destroy if @user == current_user
     respond_to do |format|
       session[:user_id] = nil
@@ -74,13 +74,14 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:username, :password, :password_confirmation)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:username, :password, :password_confirmation)
+  end
 end

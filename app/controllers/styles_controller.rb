@@ -12,4 +12,3 @@ class StylesController < ApplicationController
   def destroy
   end
 end
-  

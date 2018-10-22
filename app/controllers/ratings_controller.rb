@@ -8,7 +8,6 @@ class RatingsController < ApplicationController
     @top_breweries = Brewery.top 3
     @top_beers = Beer.top 3
     @top_styles = Style.top 3
-
   end
 
   def new
@@ -19,14 +18,14 @@ class RatingsController < ApplicationController
   def create
     @rating = Rating.new params.require(:rating).permit(:score, :beer_id)
     @rating.user = current_user
-  
+
     if @rating.save
       redirect_to user_path current_user
     else
       @beers = Beer.all
       render :new
     end
-  end 
+  end
 
   def destroy
     rating = Rating.find params[:id]

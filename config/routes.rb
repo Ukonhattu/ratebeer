@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
 
   
-
+  get 'beerlist', to:'beers#list'
+  
   root 'breweries#index'
 
   get 'kaikki_bisset', to: 'beers#index'

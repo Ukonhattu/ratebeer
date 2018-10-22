@@ -7,16 +7,23 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs.json
   def index
     @beer_clubs = BeerClub.all
+    order = params[:order] || 'name'
+
+    @beer_clubs = case order
+                  when 'name' then @beer_clubs.sort_by(&:name)
+                  when 'founded' then @beer_clubs.sort_by(&:founded)
+                  when 'city' then @beer_clubs.sort_by(&:city)
+      end
   end
 
   # GET /beer_clubs/1
   # GET /beer_clubs/1.json
   def show
-    if current_user && current_user.isInClub(@beer_club)
-      @membership = Membership.find_by(user: current_user, beer_club: @beer_club)
-    else
-      @membership = Membership.new
-    end
+    @membership = if current_user&.isInClub(@beer_club)
+                    Membership.find_by(user: current_user, beer_club: @beer_club)
+                  else
+                    Membership.new
+                  end
     @membership.beer_club = @beer_club
   end
 
@@ -70,13 +77,14 @@ class BeerClubsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_beer_club
-      @beer_club = BeerClub.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def beer_club_params
-      params.require(:beer_club).permit(:name, :founded, :city)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_beer_club
+    @beer_club = BeerClub.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def beer_club_params
+    params.require(:beer_club).permit(:name, :founded, :city)
+  end
 end

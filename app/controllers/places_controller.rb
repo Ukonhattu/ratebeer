@@ -8,6 +8,7 @@ class PlacesController < ApplicationController
       redirect_to places_path, notice: "No locations in #{params[:city]}"
     else
       raise "APIX_APIKEY env variable not defined" if ENV['APIX_APIKEY'].nil?
+
       key = ENV['APIX_APIKEY']
       url = "http://api.apixu.com/v1/current.json?key=#{key}&q="
       response = HTTParty.get "#{url}#{ERB::Util.url_encode(params[:city])}"
@@ -17,8 +18,8 @@ class PlacesController < ApplicationController
   end
 
   def show
-
     raise "BEERMAPPING_APIKEY env variable not defined" if ENV['BEERMAPPING_APIKEY'].nil?
+
     key = ENV['BEERMAPPING_APIKEY']
     url = "http://beermapping.com/webservice/locquery/#{key}/"
     response = HTTParty.get "#{url}#{ERB::Util.url_encode(params[:id])}"
@@ -27,6 +28,5 @@ class PlacesController < ApplicationController
   end
 
   def self.key
-    
   end
 end
